@@ -1,0 +1,83 @@
+#include <iostream>
+#include <windows.h>
+
+class Counter {
+public:
+	Counter() : count{ 1 } {};
+	Counter(int i) : count{ i } {};
+
+	void increment() {
+
+		this->count++;
+	}
+
+	void decrement() {
+
+		this->count--;
+	}
+
+	void score() {
+
+
+		std::cout << this->count << std::endl;
+
+	}
+
+private:
+	int count;
+};
+
+int main() {
+	SetConsoleCP(1251);
+	SetConsoleOutputCP(1251);
+
+	Counter counter;
+	char c; int i;
+
+	while (true) {
+		begin:
+		while (true) {
+			std::cout << "Вы хотите ввести начальное значение счетчика (y/n)?: " << std::endl;
+			std::cin >> c;
+			if (c == 'y') {
+				std::cout << "Введите начальное значение: " << std::endl;
+				std::cin >> i;
+				counter = Counter(i);
+				break;
+			}
+			else if (c == 'n') {
+				counter = Counter();
+				break;
+			}
+			else {
+				std::cout << "Введите y или n!" << std::endl;
+			}
+		}
+
+		while (true) {
+			std::cout << "Введите команду ('+' - увеличить, '-' - уменьшить, '=' - посмотреть, 'x' - выйти): " << std::endl;
+			std::cin >> c;
+			switch (c) {
+			case '+':
+				counter.increment();
+				break;
+			case '-':
+				counter.decrement();
+				break;
+			case '=':
+				counter.score();
+				break;
+			case 'x':
+				std::cout << "До свидания!" << std::endl;
+				goto begin;
+				break;
+			default:
+				std::cout << "Некорректный ввод!" << std::endl;
+				break;
+			}
+		}
+
+	}
+
+	return 0;
+}

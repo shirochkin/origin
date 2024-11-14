@@ -1,0 +1,107 @@
+#include <iostream>
+#include <windows.h>
+
+class Calculator {
+public:
+
+	double add(double num1, double num2) {
+		
+			return this->num1 + this->num2;
+	}
+
+	double multiply(double num1, double num2) {
+					
+			return this->num1 * this->num2;
+	}
+
+	double subtract_1_2(double num1, double num2) {
+
+		
+		return this->num1 - this->num2;
+
+	}
+
+	double subtract_2_1(double num1, double num2) {
+
+		
+			return this->num2 - this->num1;
+		
+	}
+
+	double divide_1_2(double num1, double num2) {
+
+		
+			return this->num1 / this->num2;
+		
+	}
+
+	double divide_2_1(double num1, double num2) {
+
+			return this->num2 / this->num1;
+		
+	}
+
+	bool set_num1(double num1) {
+		while (true) {
+			if (num1 != 0) {
+				this->num1 = num1;
+				break;
+			}
+
+			else {
+				std::cout << "Аргументы должны быть ненулевыми! Введите заново значение первого аргумента: \n";
+				std::cin >> num1;
+			}
+		}
+
+		return this->num1 != 0;
+	}
+
+	bool set_num2(double num2) {
+		while (true) {
+			if (num2 != 0) {
+				this->num2 = num2;
+				break;
+			}
+			else {
+				std::cout << "Аргументы должны быть ненулевыми! Введите заново значение второго аргумента: \n";
+				std::cin >> num2;
+			}
+		}
+
+		return this->num2 != 0;
+	}
+
+private:
+	double num1, num2;
+};
+
+int main () {
+	SetConsoleCP(1251);
+	SetConsoleOutputCP(1251);
+
+	double num1, num2;
+	Calculator calculator;
+
+	while (true) {
+		std::cout << "Введите значение первого аргумента: ";
+		std::cin >> num1;
+
+		calculator.set_num1(num1);
+
+		std::cout << "Введите значение второго аргумента: ";
+		std::cin >> num2;
+
+		 calculator.set_num2(num2);
+
+			std::cout << "Результат сложения: " << calculator.add(num1, num2) << std::endl;
+			std::cout << "Результат умножения: " << calculator.multiply(num1, num2) << std::endl;
+			std::cout << "Результат вычитания второго аргумента из первого: " << calculator.subtract_1_2(num1, num2) << std::endl;
+			std::cout << "Результат вычитания первого аргумента из второго: " << calculator.subtract_2_1(num1, num2) << std::endl;
+			std::cout << "Результат деления первого аргумента на второй: " << calculator.divide_1_2(num1, num2) << std::endl;
+			std::cout << "Результат деления второго аргумента на первый: " << calculator.divide_2_1(num1, num2) << std::endl;
+			std::cout << std::endl;
+	
+}
+	return 0;
+}
