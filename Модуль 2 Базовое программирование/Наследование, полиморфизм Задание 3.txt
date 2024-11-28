@@ -1,0 +1,448 @@
+#include <iostream>
+#include <windows.h>
+
+
+//Класс Фигура:
+class Shape {
+public:
+	std::string name{ "Фигура" };
+	//Установка количества сторон:
+	int getNum() {
+		if (numSides == 3 || numSides == 4) {
+			return numSides;
+		}
+
+		else {
+			std::cout << "Такой фигуры не существует!\n";
+		}
+	}
+
+public:
+	virtual void toString() {
+		std::cout << "Название: " << name << std::endl << "Количество сторон: " << numSides << std::endl << "Правильность фигуры: ";
+		if (correct()) {
+			std::cout << "Правильная" << std::endl;
+		}
+		else {
+			std::cout << "Неправильная" << std::endl;
+		}
+	}
+
+	//Функция проверки правильности фигуры:
+	virtual bool correct() {
+		if (numSides == 0) {
+			return 1;
+		}
+		else return 0;
+	}
+
+protected:
+	int numSides{ 0 };
+};
+
+
+class Triangle : public Shape {
+public:
+	Triangle() {
+		name = "Треугольник";
+		numSides = 3;
+	};
+
+	Triangle(int m, int n, int k, int M, int N, int K) {
+		name = "Треугольник";
+		numSides = 3;
+		a = m; b = n; c = k;
+		A = M; B = N; C = K;
+	};
+
+	//Функция проверки правильности фигуры:
+	bool correct() override {
+		if (numSides == 3 && (A + B + C) == 180) {
+			return 1;
+		}
+		else return 0;
+	}
+
+	//Функция вывода на экран значений сторон:
+	void getSides() {
+		std::cout << "Значения сторон: a = " << a << ", b = " << b << ", c = " << c << std::endl;
+	}
+
+	//Функция вывода на экран значений углов::
+	void getAngles() {
+		std::cout << "Значения углов: A = " << A << ", B = " << B << ", C = " << C << std::endl;
+	}
+
+	//Функция вывода на экран:
+	void toString() override {
+		Shape::toString();
+		getSides();
+		getAngles();
+		std::cout << std::endl;
+	}
+
+	//Функция установки значений сторон:
+	virtual void setSides(int m, int n, int k) {
+		a = m; b = n; c = k;
+	}
+
+	//Функция установки значений углов:
+	virtual void setAngles(int M, int N, int K) {
+		A = M; B = N; C = K;
+	}
+
+protected:
+	int a{ 0 }, b{ 0 }, c{ 0 };
+	int A{ 0 }, B{ 0 }, C{ 0 };
+
+};
+
+
+class Tetragon : public Shape {
+public:
+	Tetragon() {
+		name = "Четырехугольник";
+		numSides = 4;
+	};
+
+	Tetragon(int m, int n, int k, int l, int M, int N, int K, int L) {
+		name = "Четырехугольник";
+		numSides = 4;
+		a = m; b = n; c = k; d = l;
+		A = M; B = N; C = K; D = L;
+	};
+
+	//Функция вывода на экран значений сторон:
+	void getSides() {
+		std::cout << "Значения сторон: a = " << a << ", b = " << b << ", c = " << c << ", d = " << d << std::endl;
+	};
+
+	//Функция вывода на экран значений углов:
+	void getAngles() {
+		std::cout << "Значения углов: A = " << A << ", B = " << B << ", C = " << C << ", D = " << D << std::endl;
+	}
+
+	//Функция печати:
+	void toString() override {
+		Shape::toString();
+		getSides();
+		getAngles();
+		std::cout << std::endl;
+	}
+
+	//Функция установки значений сторон:
+	virtual void setSides(int m, int n, int k, int l) {
+		a = m; b = n; c = k; d = l;
+	}
+
+	//Функция установки значений углов:
+	virtual void setAngles(int M, int N, int K, int L) {
+		A = M; B = N; C = K; D = L;
+	}
+
+	//Функция проверки правильности фигуры:
+	bool correct() override {
+		if (numSides == 4 && (A + B + C + D) == 360) {
+			return 1;
+		}
+		else return 0;
+	}
+
+protected:
+	int a{ 0 }, b{ 0 }, c{ 0 }, d{ 0 };
+	int A, B{ 0 }, C{ 0 }, D{ 0 };
+};
+
+//Класс Прямоугольный треугольник:
+class PifagorTriangle : public Triangle {
+public:
+
+	PifagorTriangle(int m, int n, int k, int M, int N, int K) {
+		name = "Прямоугольный треугольник";
+		numSides = 3;
+		a = m; b = n; c = k;
+		setAngles(M, N, K);
+	}
+
+	//Функция проверки правильности фигуры:
+	bool correct() override {
+		if (Triangle::correct() && C == 90) {
+			return 1;
+		}
+		else return 0;
+}
+
+	void setAngles(int setA, int setB, int setC) override {
+		if (setC == 90) {
+			A = setA;
+			B = setB;
+			C = setC;
+		}
+		else throw;
+	}
+};
+
+//Класс Равнобедренный треугольник:
+class SymmetricTriangle : public Triangle {
+public:
+
+	SymmetricTriangle(int m, int n, int k, int M, int N, int K) {
+		name = "Равнобедренный треугольник";
+		numSides = 3;
+		setSides(m, n, k);
+		setAngles(M, N, K);
+	}
+
+	void setSides(int seta, int setb, int setc) override {
+		if (seta == setc) {
+			a = seta;
+			b = setb;
+			c = setc;
+		}
+		else throw;
+	}
+
+	//Функция проверки правильности фигуры:
+	bool correct() override {
+		if (Triangle::correct() && a == c && A == C) {
+			return 1;
+		}
+		else return 0;
+	}
+
+	void setAngles(int setA, int setB, int setC) override {
+		if (setA == setC) {
+			A = setA;
+			B = setB;
+			C = setC;
+		}
+		else throw;
+	}
+};
+
+//Класс Равносторонний треугольник:
+class EqualTriangle : public Triangle {
+public:
+
+	EqualTriangle(int m, int n, int k, int M, int N, int K) {
+		name = "Равносторонний треугольник";
+		numSides = 3;
+		setSides(m, n, k);
+		setAngles(M, N, K);
+	}
+
+	void setSides(int seta, int setb, int setc) override {
+		if (seta == setb && setb == setc) {
+			a = seta;
+			b = setb;
+			c = setc;
+		}
+		else throw;
+	}
+
+	//Функция проверки правильности фигуры:
+	bool correct() override {
+		if (Triangle::correct() && a == b && b == c && A == B && B == C && C == 60) {
+			return 1;
+		}
+		else return 0;
+	}
+
+	void setAngles(int setA, int setB, int setC) override {
+		if (setA == setB && setB == setC && setC == 60) {
+			A = setA;
+			B = setB;
+			C = setC;
+		}
+		else throw;
+	}
+};
+
+//Класс Прямоугольник:
+class Rect : public Tetragon {
+public:
+	Rect(int m, int n, int k, int l, int M, int N, int K, int L) {
+		name = "Прямоугольник";
+		numSides = 4;
+		setSides(m, n, k, l);
+		setAngles(M, N, K, L);
+	};
+
+	void setSides(int seta, int setb, int setc, int setd) override {
+		if (seta == setc && setb == setd) {
+			a = seta;
+			b = setb;
+			c = setc;
+			d = setd;
+		}
+		else throw;
+	}
+
+	//Функция проверки правильности фигуры:
+	bool correct() override {
+		if (Tetragon::correct() && a == c && b == d && A == B && B == C && C == D && D == 90) {
+			return 1;
+		}
+		else return 0;
+	}
+
+	void setAngles(int setA, int setB, int setC, int setD) override {
+		if (setA == setB && setB == setC && setC == setD && setD == 90) {
+			A = setA;
+			B = setB;
+			C = setC;
+			D = setD;
+		}
+		else throw;
+	}
+};
+
+//Класс Квадрат:
+class Square : public Tetragon {
+public:
+	Square(int m, int n, int k, int l, int M, int N, int K, int L) {
+		name = "Квадрат";
+		numSides = 4;
+		setSides(m, n, k, l);
+		setAngles(M, N, K, L);
+	};
+
+	void setSides(int seta, int setb, int setc, int setd) override {
+		if (seta == setb && setb == setc && setc == setd) {
+			a = seta;
+			b = setb;
+			c = setc;
+			d = setd;
+		}
+		else throw;
+	}
+
+	//Функция проверки правильности фигуры:
+	bool correct() override {
+		if (Tetragon::correct() && a == b && b == c && c == d && A == B && B == C && C == D && D == 90) {
+			return 1;
+		}
+		else return 0;
+	}
+
+	void setAngles(int setA, int setB, int setC, int setD) override {
+		if (setA == setB && setB == setC && setC == setD && setD == 90) {
+			A = setA;
+			B = setB;
+			C = setC;
+			D = setD;
+		}
+		else throw;
+	}
+};
+
+//Класс Параллелограмм:
+class Parallelogramm : public Tetragon {
+public:
+	Parallelogramm(int m, int n, int k, int l, int M, int N, int K, int L) {
+		name = "Параллелограмм";
+		numSides = 4;
+		setSides(m, n, k, l);
+		setAngles(M, N, K, L);
+	};
+
+	void setSides(int seta, int setb, int setc, int setd) override {
+		if (seta == setc && setb == setd) {
+			a = seta;
+			b = setb;
+			c = setc;
+			d = setd;
+		}
+		else throw;
+	}
+
+	//Функция проверки правильности фигуры:
+	bool correct() override {
+		if (Tetragon::correct() && a == c && b == d && A == C && B == D) {
+			return 1;
+		}
+		else return 0;
+	}
+
+	void setAngles(int setA, int setB, int setC, int setD) override {
+		if (setA == setC && setB == setD) {
+			A = setA;
+			B = setB;
+			C = setC;
+			D = setD;
+		}
+		else throw;
+	}
+};
+
+//Класс Ромб:
+class Rhomb : public Tetragon {
+public:
+	Rhomb(int m, int n, int k, int l, int M, int N, int K, int L) {
+		name = "Ромб";
+		numSides = 4;
+		setSides(m, n, k, l);
+		setAngles(M, N, K, L);
+	};
+
+	//Функция проверки правильности фигуры:
+	bool correct() override {
+		if (Tetragon::correct() && a == b && b == c && c == d && A == C && B == D) {
+			return 1;
+		}
+		else return 0;
+	}
+
+	void setSides(int seta, int setb, int setc, int setd) override {
+		if (seta == setb && setb == setc && setc == setd) {
+			a = seta;
+			b = setb;
+			c = setc;
+			d = setd;
+		}
+		else throw;
+	}
+
+	void setAngles(int setA, int setB, int setC, int setD) override {
+		if (setA == setC && setB == setD) {
+			A = setA;
+			B = setB;
+			C = setC;
+			D = setD;
+		}
+		else throw;
+	}
+};
+
+void printInfo(Shape* shape) {
+	shape->toString();
+}
+
+int main() {
+	SetConsoleCP(1251);
+	SetConsoleOutputCP(1251);
+
+	//Создание объектов:
+	Triangle triangle(10, 20, 30, 50, 60, 70);
+	PifagorTriangle pifagorTriangle(10, 20, 30, 50, 60, 90);
+	SymmetricTriangle symmetricTriangle(10, 20, 10, 50, 60, 50);
+	EqualTriangle equalTriangle(30, 30, 30, 60, 60, 60);
+	Tetragon tetragon(10, 20, 30, 40, 50, 60, 70, 80);
+	Rect rect(10, 20, 10, 20, 90, 90, 90, 90);
+	Square square(20, 20, 20, 20, 90, 90, 90, 90);
+	Parallelogramm parallelogramm(20, 30, 20, 30, 30, 40, 30, 40);
+	Rhomb rhomb(30, 30, 30, 30, 30, 40, 30, 40);
+
+	//Печать объектов:
+	printInfo(&triangle);
+	printInfo(&pifagorTriangle);
+	printInfo(&symmetricTriangle);
+	printInfo(&equalTriangle);
+	printInfo(&tetragon);
+	printInfo(&rect);
+	printInfo(&square);
+	printInfo(&parallelogramm);
+	printInfo(&rhomb);
+
+	return 0;
+}

@@ -1,0 +1,61 @@
+#include <iostream>
+#include <windows.h>
+
+
+class Shape {
+public:
+	std::string name{ "Фигура" };
+	int getNum() {
+		if (numSides == 3 || numSides == 4) {
+			return numSides;
+		}
+
+		else {
+			std::cout << "Такой фигуры не существует!\n";
+		}
+	}
+
+public:
+	void toString() {
+		std::cout << name << ": " << numSides;
+	}
+
+protected:
+	int numSides{ 0 };
+};
+
+class Triangle : public Shape {
+public:
+	Triangle() {
+		name = "Треугольник";
+		numSides = 3;
+	};
+
+};
+
+class Tetragon : public Shape {
+public:
+	Tetragon() {
+		name = "Четырехугольник";
+		numSides = 4;
+	};
+
+};
+
+int main() {
+	SetConsoleCP(1251);
+	SetConsoleOutputCP(1251);
+
+	Shape shape;
+	Triangle triangle;
+	Tetragon tetragon;
+
+	std::cout << "Количество сторон: " << std::endl;
+	shape.toString();
+	std::cout << std::endl;
+	triangle.toString();
+	std::cout << std::endl;
+	tetragon.toString();
+	std::cout << std::endl;
+	return 0;
+}
