@@ -6,10 +6,11 @@ int main() {
 	SetConsoleCP(1251);
 	SetConsoleOutputCP(1251);
 
-	#ifndef MODE
-	std::cout << "Определите значение MODE" << std::endl;
-	return 1;
+
+#ifndef MODE
+#error "Определите значение MODE"
 #endif
+
 
 	std::cout << "MODE = " << MODE << std::endl;
 
